@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.velvol.hr.domain.Worker" table="worker" >
+        <id name="id" type="java.lang.String">
+            <column name="id" length="32" />
+            <generator class="assigned" />        
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="20" />
+        </property>
+         <property name="meituanid" type="java.lang.String">
+            <column name="meituanid" length="100" />
+        </property> 
+        <property name="sex" type="java.lang.String">
+            <column name="sex" length="20" />
+        </property>
+        <property name="cardid" type="java.lang.String">
+            <column name="cardid" length="20" />
+        </property>
+         <property name="telephone" type="java.lang.String">
+            <column name="telephone" length="20" />
+        </property> 
+         <property name="type" />
+          <property name="getstate" />
+          <property name="picpath" type="java.lang.String">
+            <column name="picpath" length="200" />
+        </property>  
+        <property name="picpathlzd" type="java.lang.String">
+            <column name="picpathlzd" length="200" />
+        </property> 
+         <property name="state" /> 
+         <many-to-one name="region" class="com.velvol.hr.domain.Region" column="region_id" lazy="false">
+       	</many-to-one> 
+       	<many-to-one name="station" class="com.velvol.hr.domain.Station" column="station_id" lazy="false">
+       	</many-to-one> 
+       	<property name="yhcard" type="java.lang.String">
+            <column name="yhcard" length="20" />
+        </property>
+        <property name="yhperson" type="java.lang.String">
+            <column name="yhperson" length="20" />
+        </property>
+        <property name="yhfrom" type="java.lang.String">
+            <column name="yhfrom" length="20" />
+        </property>
+       	 <property name="indate" type="java.util.Date">
+            <column name="indate" length="0" />
+        </property>
+              
+    </class>
+      
+</hibernate-mapping>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.velvol.hr.domain.Initinfo" table="initinfo" >
+        <id name="id">
+            <generator class="native"/>
+		</id>
+        
+        <property name="isbx" />
+        <property name="bx_startdate" type="java.util.Date">
+            <column name="bx_startdate" length="0" />
+        </property> 
+        <property name="bx_enddate" type="java.util.Date">
+            <column name="bx_enddate" length="0" />
+        </property> 
+        
+        <property name="isht" />
+        <property name="ht_startdate" type="java.util.Date">
+            <column name="ht_startdate" length="0" />
+        </property> 
+        <property name="ht_enddate" type="java.util.Date">
+            <column name="ht_enddate" length="0" />
+        </property> 
+              
+        <property name="isdeduct" />
+        <property name="pxmoney" />
+        <property name="kcpx_date" type="java.util.Date">
+            <column name="kcpx_date" length="0" />
+        </property> 
+        <property name="thpx_date" type="java.util.Date">
+            <column name="thpx_date" length="0" />
+        </property> 
+        <property name="pxthmoney" />
+        <property name="isok" />
+        
+        <many-to-one name="preworker" class="com.velvol.hr.domain.Preworker" column="prework_id" unique="true"></many-to-one>
+    </class>
+    
+</hibernate-mapping>

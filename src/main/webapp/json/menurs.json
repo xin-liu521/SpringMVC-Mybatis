@@ -1,0 +1,18 @@
+[
+		{ "id":"11", "pId":"0", "name":"入职信息管理"},		
+		{ "id":"1101", "pId":"11", "name":"预登记","page":"page_renshi_preworker.action"},
+		{ "id":"1102", "pId":"11", "name":"待报到","page":"page_renshi_daibaodao.action"},
+		{ "id":"1103", "pId":"11", "name":"试用期",  "page":"page_renshi_shiyongqi.action"},		
+		
+		{ "id":"12", "pId":"0", "name":"离职管理"},		
+		{ "id":"1204", "pId":"12", "name":"人事审批" ,"page":"page_renshi_rshenpi.action"},
+		{ "id":"1205", "pId":"12", "name":"扣费处理" ,"page":"page_renshi_daojiesuan.action"},
+		{ "id":"1206", "pId":"12", "name":"完成列表" ,"page":"page_renshi_leavefinish.action"},
+		
+		{ "id":"16", "pId":"0", "name":"在职信息"},	
+		{ "id":"1601", "pId":"16", "name":"信息维护","page":"page_common_worker.action"},
+		
+		{ "id":"13", "pId":"0", "name":"考勤管理"},	
+		{ "id":"1301", "pId":"13", "name":"今日考勤","page":"page_renshi_kaoqin.action"},
+		{ "id":"1301", "pId":"13", "name":"考勤统计","page":"page_renshi_kaoqintj.action"}
+]

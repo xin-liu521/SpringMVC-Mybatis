@@ -1,0 +1,7 @@
+{"currentPage":1,"pageSize":5,
+  "rows":[
+   {"cardid":"22435","deltag":0,"id":"100001","name":"张三","referee":"hh","region":{"name":"北京","regionbh":"10001"},"sex":"男","predate":"2017-12-12","telephone":"5444","type":0},
+   {"cardid":"546546","deltag":0,"id":"100002","name":"李四","referee":"","region":{"name":"北京","regionbh":"10001"},"sex":"男","predate":"2017-12-07","telephone":"546546","type":0},
+   {"cardid":"546546","deltag":0,"id":"100005","name":"李四","referee":"","region":{"name":"北京","regionbh":"10001"},"sex":"男","predate":"2017-12-07","telephone":"546546","type":0},
+   {"cardid":"","deltag":0,"id":"4028d2cc603960b9016039617be00000","name":"99","referee":"","region":{"name":"北京","regionbh":"10001"},"sex":"男","predate":"2018-01-03","telephone":"13811111111","type":0}
+  ],"total":13}

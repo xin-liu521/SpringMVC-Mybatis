@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>
+	<constant name="struts.devMode" value="false" />
+	
+	<package name="basicstruts2" extends="struts-default">
+	    		
+		<!-- 全局结果集定义 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="unauthorized">/unauthorized.jsp</result>
+		</global-results>
+		<!-- 配置全局异常捕获：注解方式权限控制，权限不足产生的异常 -->
+		<global-exception-mappings>
+			<exception-mapping result="unauthorized" 
+				exception="org.apache.shiro.authz.UnauthorizedException"></exception-mapping>
+		</global-exception-mappings>
+	
+	
+		<!-- 需要进行权限控制的页面访问：配置这个的目的：为了所有的页面跳转，不用为每个页面跳转都配置个action
+		     例如：页面请求为page_admin_role.action->跳转页面为/WEB-INF/pages/admin/role.jsp
+		 -->
+
+		<action name="movepage_*_*">
+			<result type="dispatcher">/WEB-INF/movepage/{1}/{2}.jsp</result>
+		</action>
+		
+		<!-- 用户管理 -->
+		<action name="userAction_*" class="userAction" method="{1}">			
+			<result name="home">/index.jsp</result>
+			<result name="home_qs">/WEB-INF/pages/common/indexqs.jsp</result>
+
+			<result name="home_rs">/WEB-INF/movepage/renshi/indexrs.jsp</result>
+			<!--<result name="home_zz">/WEB-INF/movepage/common/indexzaz.jsp</result>-->
+
+			<result name="home_xt">/WEB-INF/pages/common/indexxt.jsp</result>
+			<result name="list">/WEB-INF/pages/admin/userlist.jsp</result>
+			<result name="updatePwdPage">/WEB-INF/movepage/renshi/updatePassword.jsp</result>
+			<result name="updateZzPwdPage">/WEB-INF/movepage/zhanzhang/updatePassword.jsp</result>
+		</action>
+		
+		<!-- 预注册申请管理 -->
+		<action name="preworkerAction_*" class="preworkerAction" method="{1}">
+			<result name="register">/move_register.jsp</result>
+			<result name="registerok">/registerok.jsp</result>
+			<result name="moveReList">/WEB-INF/movepage/zhanzhang/zzregister.jsp</result>
+			<result name="moveRensList">/WEB-INF/movepage/renshi/rs_register.jsp</result>
+
+			<result name="indexList">/WEB-INF/movepage/common/index.jsp</result>
+			<result name="rsIndexList">/WEB-INF/movepage/renshi/index.jsp</result>
+		</action>
+		
+		<!-- 初始化数据管理 -->
+		<action name="initAction_*" class="initAction" method="{1}">			
+			<result name="list">/WEB-INF/pages/base/scanAdd.jsp</result>			
+		</action>
+		
+		<!-- 物料领取管理 -->
+		<action name="materialAction_*" class="materialAction" method="{1}">			
+			<result name="list">/WEB-INF/pages/base/scanAdd.jsp</result>			
+		</action>
+		
+		<!-- 管理物料发放 -->			
+		<action name="matModAction_*" class="matModAction" method="{1}">			
+			<result name="list">/WEB-INF/pages/base/scanAdd.jsp</result>	
+			<result name="dbdlist">/WEB-INF/pagenew/zhanzhang/daibaodao.jsp</result>			
+		</action>
+		
+		<!-- 待报到管理 -->
+		<action name="daibaodaoAction_*" class="daibaodaoAction" method="{1}">		
+			<result name="list">/WEB-INF/pagenew/zhanzhang/daibaodao.jsp</result>
+			<result name="moveBaodaoList">/WEB-INF/movepage/zhanzhang/baodao_list.jsp</result>
+			<result name="moveRsBaodaoList">/WEB-INF/movepage/renshi/rs_baodao_list.jsp</result>
+		</action>
+		
+		<!-- 试用期管理 -->
+		<action name="shiyongqiAction_*" class="shiyongqiAction" method="{1}">		
+			<result name="list">/WEB-INF/pagenew/zhanzhang/shiyongqi.jsp</result>		
+			<result name="rlist">/WEB-INF/pagenew/renshi/shiyongqi.jsp</result>
+
+			<result name="moveSyList">/WEB-INF/movepage/zhanzhang/probation_list.jsp</result>
+			<result name="moveRsSyList">/WEB-INF/movepage/renshi/rs_probation_list.jsp</result>
+		</action>
+		
+		<!-- 离职申请管理 -->
+		<action name="leavereqAction_*" class="leavereqAction" method="{1}">		
+
+			<result name="moveApproveList">/WEB-INF/movepage/zhanzhang/lz_approve_list.jsp</result>
+			<result name="moveRsApproveList">/WEB-INF/movepage/renshi/rs_approve_list.jsp</result>
+		</action>
+		
+		<!-- 在职管理 -->
+		<action name="workerAction_*" class="workerAction" method="{1}">			
+			<result name="list">/WEB-INF/pages/common/worker.jsp</result>
+
+			<result name="personalPage">/WEB-INF/movepage/zhanzhang/zz_personal_center.jsp</result>
+			<result name="personalRsPage">/WEB-INF/movepage/renshi/rs_personal_center.jsp</result>
+		</action>
+		
+		<!-- 考勤管理 -->
+		<action name="kaoqinAction_*" class="kaoqinAction" method="{1}">			
+
+			<result name="moveKaoqinList">/WEB-INF/movepage/zhanzhang/zkaoqin_list.jsp</result>
+			<result name="moveKaoqinZcList">/WEB-INF/movepage/zhanzhang/zckaoqin.jsp</result>
+			<result name="moveKaoqinYxList">/WEB-INF/movepage/zhanzhang/yxkaoqin.jsp</result>
+
+			<result name="moveRsKaoqinList">/WEB-INF/movepage/renshi/rs_zkaoqin_list.jsp</result>
+			<result name="moveRsZcList">/WEB-INF/movepage/renshi/rs_zczkaoqin_list.jsp</result>
+			<result name="moveRsYxList">/WEB-INF/movepage/renshi/rs_yxzkaoqin_list.jsp</result>
+		</action>
+		
+		<!-- 考勤统计 -->
+		<action name="statkqAction_*" class="statkqAction" method="{1}">			
+			<result name="list">/WEB-INF/pages/zhanzhang/kaoqintj.jsp</result>				
+		</action>
+
+
+		<action name="uploadAction_*" class="uploadAction" method="{1}">
+			<!--<result name="list">/WEB-INF/pages/zhanzhang/kaoqintj.jsp</result>-->
+		</action>
+
+		<action name="weixinAction_*" class="weixinAction" method="{1}">
+			<result name="register">/move_register.jsp</result>
+		</action>
+	</package>
+</struts>
