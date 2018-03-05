@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByProductDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByProduct">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="PRODUCT_TYPE" jdbcType="BIGINT" property="productType" />
+    <result column="PRODUCT_TYPE_NAME" jdbcType="VARCHAR" property="productTypeName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_TYPE, PRODUCT_TYPE_NAME, REMARK, BASE_ID, CREATE_TIME, CREATE_USER_ID, COMPANY_TYPE
+  </sql>
+
+  <!-- 删除 -->
+  <delete id="deleteByProduct" parameterType="map">
+    DELETE FROM BY_PRODUCT T
+    WHERE T.ID  IN
+    <foreach collection="idsList" item="item"  open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!-- 保存通知附件 -->
+  <insert id="insertBatchProduct" parameterType="list" useGeneratedKeys="false">
+    INSERT INTO BY_PRODUCT (
+    ID
+    ,PRODUCT_TYPE
+    ,PRODUCT_TYPE_NAME
+    ,REMARK
+    ,BASE_ID
+    ,CREATE_TIME
+    ,CREATE_USER_ID
+    ,COMPANY_TYPE
+    ) SELECT BY_PRODUCT_SEQ.NEXTVAL
+    ,T.PRODUCT_TYPE
+    ,T.PRODUCT_TYPE_NAME
+    ,T.REMARK
+    ,T.BASE_ID
+    ,T.CREATE_TIME
+    ,T.CREATE_USER_ID
+    ,T.COMPANY_TYPE
+    FROM (
+    <foreach item="item" collection="list" separator="UNION ALL" index="index">
+      SELECT
+      #{item.productType, jdbcType=BIGINT} AS PRODUCT_TYPE
+      ,#{item.productTypeName, jdbcType=VARCHAR} AS PRODUCT_TYPE_NAME
+      ,#{item.remark, jdbcType=VARCHAR} AS REMARK
+      ,#{item.baseId, jdbcType=BIGINT} AS BASE_ID
+      ,#{item.createTime, jdbcType=TIMESTAMP} AS CREATE_TIME
+      ,#{item.createUserId, jdbcType=BIGINT} AS CREATE_USER_ID
+      ,#{item.companyType, jdbcType=INTEGER} AS COMPANY_TYPE
+      FROM DUAL
+    </foreach>
+    ) T
+  </insert>
+
+
+  <!--<insert id="insertBatchProduct" parameterType="list"  useGeneratedKeys="false">-->
+    <!--INSERT INTO BY_PRODUCT-->
+    <!--(-->
+    <!--ID,-->
+    <!--PRODUCT_TYPE,-->
+    <!--PRODUCT_TYPE_NAME,-->
+    <!--REMARK, BASE_ID,-->
+    <!--CREATE_TIME,-->
+    <!--CREATE_USER_ID-->
+    <!--)-->
+     <!--VALUES-->
+    <!--<foreach collection="list" item="item" separator="," index="index" >-->
+      <!--(-->
+      <!--BY_PRODUCT_SEQ.NEXTVAL,-->
+      <!--#{item.productType},-->
+      <!--#{item.productTypeName},-->
+      <!--#{item.remark},-->
+      <!--#{item.baseId},-->
+      <!--#{item.createTime},-->
+      <!--#{item.createUserId}-->
+      <!--)-->
+    <!--</foreach>-->
+  <!--</insert>-->
+<update id="updateBatchProduct" parameterType="list" >
+  <foreach collection="list" item="item" open="begin" close=";end;" separator=";" index="index">
+    UPDATE BY_PRODUCT
+    <set>
+      <if test="item.productType != null">
+        PRODUCT_TYPE =#{item.productType},
+      </if>
+      <if test="item.productTypeName != null">
+        PRODUCT_TYPE_NAME =#{item.productTypeName},
+      </if>
+      <if test="item.remark != null">
+        REMARK =#{item.remark},
+      </if>
+    </set>
+    where ID =#{item.id}
+  </foreach>
+</update>
+
+  <!--查询产品信息-->
+  <select id="selectProductList" parameterType="map" resultType="com.infoyb.supplier.system.model.ByProduct">
+    SELECT <include refid="Base_Column_List"/>
+    FROM BY_PRODUCT
+    <where>
+      <if test="baseId != null">
+        AND  BASE_ID =#{baseId, jdbcType=BIGINT}
+      </if>
+      <if test="companyType != null">
+        AND  COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <!--删除外部单位产品分类关联信息-->
+  <delete id="deleteOutProduct" parameterType="map" >
+    DELETE BY_OUTUNIT_PRODUCT WHERE WLLB_ID =#{wllbId, jdbcType=VARCHAR}
+    AND STATUS =#{status, jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectByProductOut" parameterType="map" resultType="map">
+    SELECT NBDW_ID, NBDW_NAME FROM BY_PRODUCR_OFFICE WHERE WLLB_ID =#{wllbId, jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insertOutProduct" parameterType="map" useGeneratedKeys="true" keyProperty="byOutproId">
+    <selectKey keyProperty="byOutproId" order="BEFORE" resultType="string" >
+      select BY_OUTUNIT_PRODUCT_SEQ.nextval from dual
+    </selectKey>
+    INSERT INTO BY_OUTUNIT_PRODUCT
+    (
+    BY_OUTPRO_ID,
+    WLLB_ID,
+    OUTUNIT_ID,
+    NBDW_ID,
+    NBDW_NAME,
+    STATUS
+    )VALUES
+    (
+    #{byOutproId, jdbcType=VARCHAR},
+    #{wllbId, jdbcType=VARCHAR},
+    #{unitId, jdbcType=VARCHAR},
+    #{nbdwId, jdbcType=VARCHAR},
+    #{nbdwName, jdbcType=VARCHAR},
+    #{status, jdbcType=INTEGER}
+    )
+  </insert>
+</mapper>

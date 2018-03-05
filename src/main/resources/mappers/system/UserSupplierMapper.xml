@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.UserSupplierDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.UserSupplier">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="USER_ACCOUNT" jdbcType="VARCHAR" property="userAccount" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_PSW" jdbcType="VARCHAR" property="userPsw" />
+    <result column="SEX" jdbcType="INTEGER" property="sex" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="ZIPCODE" jdbcType="VARCHAR" property="zipcode" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="SALT" jdbcType="VARCHAR" property="salt" />
+    <result column="REGEDIT_TIME" jdbcType="TIMESTAMP" property="regeditTime" />
+    <result column="PICTURE_URL" jdbcType="VARCHAR" property="pictureUrl" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    USER_ID, USER_ACCOUNT, USER_NAME, USER_PSW, SEX, EMAIL, ADDRESS, ZIPCODE, PHONE, 
+    FAX, STATUS, SALT, REGEDIT_TIME
+  </sql>
+  <!--查询账号-->
+  <select id="selectUserByAccount" resultType="com.infoyb.supplier.system.model.UserSupplier" parameterType="string">
+    SELECT  USER_ID, USER_ACCOUNT, USER_NAME, USER_PSW, SEX, EMAIL, ADDRESS, ZIPCODE, PHONE,
+    FAX, STATUS, SALT, REGEDIT_TIME
+    FROM USER_SUPPLIER WHERE USER_ACCOUNT =#{userAccount, jdbcType=VARCHAR}
+  </select>
+
+  <!--校验账号-->
+  <select id="queryUser" resultType="java.lang.Integer" parameterType="string">
+    select COUNT(USER_ID) from USER_SUPPLIER WHERE USER_ACCOUNT=#{userAccount, jdbcType=VARCHAR}
+  </select>
+
+  <!--根据id查询用户信息-->
+  <select id="selectByUserId" parameterType="long" resultType="map">
+    SELECT USER_ID, USER_ACCOUNT, USER_NAME, USER_PSW, SEX, EMAIL, ADDRESS, ZIPCODE, PHONE,
+    FAX, STATUS, SALT, REGEDIT_TIME, PICTURE_URL
+    FROM USER_SUPPLIER WHERE USER_ID =#{userId, jdbcType=BIGINT}
+  </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByAptitudeDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByAptitude">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="APTITUDE_TYPE" jdbcType="INTEGER" property="aptitudeType" />
+    <result column="APTITUDE_TYPE_NAME" jdbcType="VARCHAR" property="aptitudeTypeName" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    ID, APTITUDE_TYPE, APTITUDE_TYPE_NAME, BASE_ID, CREATE_TIME, CREATE_USER_ID
+  </sql>
+</mapper>

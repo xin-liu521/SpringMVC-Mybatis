@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByApproveBaseRecordDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByApproveBaseRecord">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="BY_APPROVE_BASE_ID" jdbcType="BIGINT" property="byApproveBaseId" />
+    <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode" />
+    <result column="COMPANY_FULL_NAME" jdbcType="VARCHAR" property="companyFullName" />
+    <result column="COMPANY_FULL_EG" jdbcType="VARCHAR" property="companyFullEg" />
+    <result column="COMPANY_SHORT_NAME" jdbcType="VARCHAR" property="companyShortName" />
+    <result column="COMPANY_SHORT_EG" jdbcType="VARCHAR" property="companyShortEg" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="FUND" jdbcType="INTEGER" property="fund" />
+    <result column="IS_UNITY" jdbcType="INTEGER" property="isUnity" />
+    <result column="ECONOMICS_TYPE_NAME" jdbcType="VARCHAR" property="economicsTypeName" />
+    <result column="SOCIAL_CREDIT_CODE" jdbcType="VARCHAR" property="socialCreditCode" />
+    <result column="LICENSE_NUMBER" jdbcType="VARCHAR" property="licenseNumber" />
+    <result column="ORGANIZATION_CODE_NUMBER" jdbcType="VARCHAR" property="organizationCodeNumber" />
+    <result column="TAX_NUMBER" jdbcType="VARCHAR" property="taxNumber" />
+    <result column="ECONOMICS_TYPE" jdbcType="INTEGER" property="economicsType" />
+    <result column="CREATE_REG_TIME" jdbcType="TIMESTAMP" property="createRegTime" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="POSTCODE" jdbcType="INTEGER" property="postcode" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="WEB_ADDRESS" jdbcType="VARCHAR" property="webAddress" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_USER_ID" jdbcType="BIGINT" property="updateUserId" />
+    <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+    <result column="AREA" jdbcType="BIGINT" property="area" />
+    <result column="APPROVE_BACK_CAUSE" jdbcType="VARCHAR" property="approveBackCause" />
+    <result column="COMPANY_SUPPLIER_TYPE" jdbcType="INTEGER" property="companySupplierType" />
+    <result column="SUPPLIER_STATUS" jdbcType="INTEGER" property="supplierStatus" />
+    <result column="CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="CONTACT_PHONE" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="IS_CHEMICAL" jdbcType="INTEGER" property="isChemical" />
+    <result column="RECORD_TIME" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="RECORD_VERSION" jdbcType="INTEGER" property="recordVersion" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BY_APPROVE_BASE_ID, COMPANY_CODE, COMPANY_FULL_NAME, COMPANY_FULL_EG, COMPANY_SHORT_NAME,
+    COMPANY_SHORT_EG, LEGAL_PERSON, FUND, IS_UNITY, ECONOMICS_TYPE_NAME, SOCIAL_CREDIT_CODE, 
+    LICENSE_NUMBER, ORGANIZATION_CODE_NUMBER, TAX_NUMBER, ECONOMICS_TYPE, CREATE_REG_TIME, 
+    ADDRESS, POSTCODE, PHONE, EMAIL, WEB_ADDRESS, FAX, COMPANY_TYPE, STATUS, CREATE_TIME, 
+    CREATE_USER_ID, UPDATE_TIME, UPDATE_USER_ID, AREA_NAME, AREA, APPROVE_BACK_CAUSE, 
+    COMPANY_SUPPLIER_TYPE, SUPPLIER_STATUS, CONTACT, CONTACT_PHONE, IS_CHEMICAL, RECORD_TIME,RECORD_VERSION
+  </sql>
+
+  <select id="selectApproveRecord" parameterType="com.infoyb.supplier.system.model.ByApproveBaseRecord" resultType="Integer">
+    SELECT Max(RECORD_VERSION) FROM BY_APPROVE_BASE_RECORD WHERE BY_APPROVE_BASE_ID =#{byApproveBaseId, jdbcType=BIGINT}
+  </select>
+</mapper>

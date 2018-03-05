@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByIndustryDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByIndustry">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="INDUSTRY" jdbcType="BIGINT" property="industry" />
+    <result column="INDUSTRY_NAME" jdbcType="VARCHAR" property="industryName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BASE_ID, INDUSTRY, INDUSTRY_NAME, CREATE_TIME, CREATE_USER_ID, COMPANY_TYPE
+  </sql>
+
+  <insert id="insertBatchIndustry" parameterType="list" useGeneratedKeys="false">
+    INSERT INTO BY_INDUSTRY(
+    ID,
+    BASE_ID,
+    INDUSTRY,
+    INDUSTRY_NAME,
+    CREATE_TIME,
+    CREATE_USER_ID,
+    COMPANY_TYPE
+    )SELECT BY_INDUSTRY_SEQ.NEXTVAL
+    ,T.BASE_ID
+    ,T.INDUSTRY
+    ,T.INDUSTRY_NAME
+    ,T.CREATE_TIME
+    ,T.CREATE_USER_ID
+    ,T.COMPANY_TYPE
+    FROM (
+    <foreach item="byIndustry" collection="list" separator="UNION ALL" index="index">
+      SELECT
+      #{byIndustry.baseId, jdbcType=BIGINT} AS BASE_ID
+      ,#{byIndustry.industry, jdbcType=BIGINT} AS INDUSTRY
+      ,#{byIndustry.industryName, jdbcType=VARCHAR} AS INDUSTRY_NAME
+      ,#{byIndustry.createTime, jdbcType=TIMESTAMP} AS CREATE_TIME
+      ,#{byIndustry.createUserId, jdbcType=BIGINT} AS CREATE_USER_ID
+      ,#{byIndustry.companyType, jdbcType=INTEGER} AS COMPANY_TYPE
+      FROM DUAL
+    </foreach>
+    ) T
+
+  </insert>
+
+  <update id="updateBatchIndustry" parameterType="list" >
+    <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+      update BY_INDUSTRY
+      <set>
+        <if test="item.industry!=null">
+            INDUSTRY =#{item.industry},
+        </if>
+        <if test="item.industryName !=null">
+            INDUSTRY_NAME =#{item.industryName},
+        </if>
+      </set>
+      where id = #{item.id}
+    </foreach>
+  </update>
+
+  <!--模糊搜索产品  01~11大类下所有大类、中类、小类-->
+  <select id="selectByProductTypeName" parameterType="string" resultType="map">
+    select m.lbbm, m.lbmc, m.LBBM_ID, m.WZCPBZ
+      from (
+      select a.*,
+      substr(a.lbbm, 0, 2) ser
+      from WL_LB a where a.lbbm like 'A%'
+      UNION ALL
+      SELECT t.* from (
+       select a.*,
+      substr(a.lbbm, 2, 1) ser
+      from WL_LB a where a.lbbm like 'B%') t where t.ser between 1 and 2) m
+    where m.lbmc like '%' || #{productTypeName, jdbcType=VARCHAR} || '%' AND m.WZCPBZ = '2'
+  </select>
+
+  <!--模糊搜索产品 12及20大类以后的所有大类-->
+  <select id="selectByProductTypeNameSupplier" parameterType="string" resultType="map">
+     select m.lbbm, m.lbmc, m.LBBM_ID
+       from (
+      select b.* from WL_LB b
+      WHERE b.lbbm not like 'A%' AND b.lbbm not like 'B%' and b.pid is null
+                     ) m
+     where m.lbmc like '%' || #{productTypeName, jdbcType=VARCHAR} || '%'
+
+  </select>
+  <!--查询行业信息-->
+  <select id="selectIndustryList" resultType="com.infoyb.supplier.system.model.ByIndustry" parameterType="map">
+    SELECT <include refid="Base_Column_List"/>
+    FROM BY_INDUSTRY
+    <where>
+      <if test="baseId != null">
+        AND  BASE_ID =#{baseId, jdbcType=BIGINT}
+      </if>
+      <if test="companyType != null">
+        AND  COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

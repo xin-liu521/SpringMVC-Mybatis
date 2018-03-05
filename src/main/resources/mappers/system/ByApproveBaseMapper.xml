@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByApproveBaseDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByApproveBase">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode" />
+    <result column="COMPANY_FULL_NAME" jdbcType="VARCHAR" property="companyFullName" />
+    <result column="COMPANY_FULL_EG" jdbcType="VARCHAR" property="companyFullEg" />
+    <result column="COMPANY_SHORT_NAME" jdbcType="VARCHAR" property="companyShortName" />
+    <result column="COMPANY_SHORT_EG" jdbcType="VARCHAR" property="companyShortEg" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="FUND" jdbcType="INTEGER" property="fund" />
+    <result column="IS_UNITY" jdbcType="INTEGER" property="isUnity" />
+    <result column="ECONOMICS_TYPE_NAME" jdbcType="VARCHAR" property="economicsTypeName" />
+    <result column="SOCIAL_CREDIT_CODE" jdbcType="VARCHAR" property="socialCreditCode" />
+    <result column="LICENSE_NUMBER" jdbcType="VARCHAR" property="licenseNumber" />
+    <result column="ORGANIZATION_CODE_NUMBER" jdbcType="VARCHAR" property="organizationCodeNumber" />
+    <result column="TAX_NUMBER" jdbcType="VARCHAR" property="taxNumber" />
+    <result column="ECONOMICS_TYPE" jdbcType="INTEGER" property="economicsType" />
+    <result column="CREATE_REG_TIME" jdbcType="TIMESTAMP" property="createRegTime" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="POSTCODE" jdbcType="INTEGER" property="postcode" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="WEB_ADDRESS" jdbcType="VARCHAR" property="webAddress" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_USER_ID" jdbcType="INTEGER" property="updateUserId" />
+    <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+    <result column="AREA" jdbcType="BIGINT" property="area" />
+    <result column="APPROVE_BACK_CAUSE" jdbcType="VARCHAR" property="approveBackCause" />
+    <result column="COMPANY_SUPPLIER_TYPE" jdbcType="INTEGER" property="companySupplierType" />
+    <result column="SUPPLIER_STATUS" jdbcType="INTEGER" property="supplierStatus" />
+    <result column="CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="CONTACT_PHONE" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="IS_CHEMICAL" jdbcType="INTEGER" property="isChemical" />
+    <result column="CURRENCY" jdbcType="INTEGER" property="currency" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    ID, COMPANY_CODE, COMPANY_FULL_NAME, COMPANY_FULL_EG, COMPANY_SHORT_NAME, COMPANY_SHORT_EG, 
+    LEGAL_PERSON, FUND, IS_UNITY, ECONOMICS_TYPE_NAME, SOCIAL_CREDIT_CODE, LICENSE_NUMBER, 
+    ORGANIZATION_CODE_NUMBER, TAX_NUMBER, ECONOMICS_TYPE, CREATE_REG_TIME, ADDRESS, POSTCODE, 
+    PHONE, EMAIL, WEB_ADDRESS, FAX, COMPANY_TYPE, STATUS, CREATE_TIME, CREATE_USER_ID, 
+    UPDATE_TIME, UPDATE_USER_ID, AREA_NAME, AREA, APPROVE_BACK_CAUSE, COMPANY_SUPPLIER_TYPE,
+    SUPPLIER_STATUS, CONTACT, CONTACT_PHONE, IS_CHEMICAL,CURRENCY
+  </sql>
+
+
+  <!--根据用户id查询基本信息-->
+  <select id="selectByApproveBase" resultType="com.infoyb.supplier.system.model.ByApproveBase" parameterType="long">
+    SELECT <include refid="Base_Column_List"/>
+    FROM BY_APPROVE_BASE
+    WHERE CREATE_USER_ID =#{id, jdbcType=BIGINT}
+  </select>
+
+  <select id="queryEconomicsTypeTree" resultType="map" parameterType="map">
+    SELECT CODE_ID, CODE_NAME, CODE_VALUE, PID
+    FROM sys_code WHERE code_name_id =#{economy}
+  </select>
+
+  <!--模糊搜索地区-->
+  <select id="selectByAreaName" parameterType="string" resultType="map">
+    SELECT t.address, t.area_id FROM (
+    select area_name ||'_'|| city_name ||'_'|| county_name as address, area_id
+    from BY_AREA ) t
+     WHERE t.address LIKE '%' || #{areaName, jdbcType=VARCHAR} || '%'
+  </select>
+
+
+  <!--搜索产品  01~11大类下所有大类、中类、小类-->
+  <select id="selectClientWullbList" resultType="map"  >
+    select m.lbbm, m.lbmc, m.LBBM_ID, m.WZCPBZ
+      from (
+      select a.*,
+      substr(a.lbbm, 0, 2) ser
+      from WL_LB a where a.lbbm like 'A%'
+      UNION ALL
+      SELECT t.* from (
+       select a.*,
+      substr(a.lbbm, 2, 1) ser
+      from WL_LB a where a.lbbm like 'B%') t where t.ser between 1 and 2) m
+    where  m.WZCPBZ = '2'
+  </select>
+  <!--搜索产品 12及20大类以后的所有大类-->
+  <select id="selectSupplierWullbList" resultType="map">
+    select m.lbbm, m.lbmc, m.LBBM_ID
+       from (
+      select b.* from WL_LB b
+      WHERE b.lbbm not like 'A%' AND b.lbbm not like 'B%' and b.pid is null
+                     ) m
+
+
+  </select>
+
+  <!--校验字段的唯一性-->
+  <select id="queryCheckoutNameUnique" parameterType="com.infoyb.supplier.system.model.ByApproveBase" resultType="int">
+    SELECT count(id) FROM BY_APPROVE_BASE
+    <where>
+      (STATUS != 0 OR SUPPLIER_STATUS != 0)
+      <if test="id != null">
+        AND ID !=#{id, jdbcType=BIGINT}
+      </if>
+      <if test="companyFullName != null">
+        AND COMPANY_FULL_NAME =#{companyFullName, jdbcType=VARCHAR}
+      </if>
+      <if test="socialCreditCode != null">
+        AND SOCIAL_CREDIT_CODE =#{socialCreditCode, jdbcType=VARCHAR}
+      </if>
+      <if test="organizationCodeNumber != null">
+        AND ORGANIZATION_CODE_NUMBER =#{organizationCodeNumber, jdbcType=VARCHAR}
+      </if>
+      <if test="taxNumber != null">
+        AND TAX_NUMBER =#{taxNumber, jdbcType=VARCHAR}
+      </if>
+      <if test="licenseNumber != null">
+        AND LICENSE_NUMBER =#{licenseNumber, jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

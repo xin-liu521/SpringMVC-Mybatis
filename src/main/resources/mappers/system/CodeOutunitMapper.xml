@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.CodeOutunitDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.CodeOutunit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="FULLNAME" jdbcType="VARCHAR" property="fullname" />
+    <result column="SHORTNAME" jdbcType="VARCHAR" property="shortname" />
+    <result column="EN_FULLNAME" jdbcType="VARCHAR" property="enFullname" />
+    <result column="EN_SHORTNAME" jdbcType="VARCHAR" property="enShortname" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="GSDJH" jdbcType="VARCHAR" property="gsdjh" />
+    <result column="SWDJH" jdbcType="VARCHAR" property="swdjh" />
+    <result column="ZZJGM" jdbcType="VARCHAR" property="zzjgm" />
+    <result column="ZMCL_ID" jdbcType="VARCHAR" property="zmclId" />
+    <result column="ISCUSTOMER" jdbcType="VARCHAR" property="iscustomer" />
+    <result column="ISPROVIDER" jdbcType="VARCHAR" property="isprovider" />
+    <result column="COUNTRY" jdbcType="VARCHAR" property="country" />
+    <result column="AREA" jdbcType="VARCHAR" property="area" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="POSTCODE" jdbcType="VARCHAR" property="postcode" />
+    <result column="LANAGUECODE" jdbcType="VARCHAR" property="lanaguecode" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="TEL_EXT" jdbcType="VARCHAR" property="telExt" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="FAX_EXT" jdbcType="VARCHAR" property="faxExt" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="SUBMIT_TIME" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="REGISTERCAPITAL" jdbcType="VARCHAR" property="registercapital" />
+    <result column="GRYXZJ" jdbcType="VARCHAR" property="gryxzj" />
+    <result column="FREEZE_STATUS_CUS" jdbcType="VARCHAR" property="freezeStatusCus" />
+    <result column="FREEZE_STATUS_SUP" jdbcType="VARCHAR" property="freezeStatusSup" />
+    <result column="CREATOR_ID" jdbcType="VARCHAR" property="creatorId" />
+    <result column="CREATOR_NAME" jdbcType="VARCHAR" property="creatorName" />
+    <result column="CREATOR_TIME" jdbcType="TIMESTAMP" property="creatorTime" />
+    <result column="UPDATE_UID" jdbcType="VARCHAR" property="updateUid" />
+    <result column="UPDATE_UNAME" jdbcType="VARCHAR" property="updateUname" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK2" jdbcType="VARCHAR" property="remark2" />
+    <result column="REMARK1" jdbcType="VARCHAR" property="remark1" />
+    <result column="REMARK4" jdbcType="VARCHAR" property="remark4" />
+    <result column="REMARK3" jdbcType="VARCHAR" property="remark3" />
+    <result column="REMARK5" jdbcType="VARCHAR" property="remark5" />
+    <result column="VERSION" jdbcType="VARCHAR" property="version" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ERRTEXT" jdbcType="VARCHAR" property="errtext" />
+    <result column="DWLX" jdbcType="VARCHAR" property="dwlx" />
+    <result column="SZHY" jdbcType="VARCHAR" property="szhy" />
+    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />
+    <result column="LEGALPERSION" jdbcType="VARCHAR" property="legalpersion" />
+    <result column="REGISTERCAPITAL_TYPE" jdbcType="VARCHAR" property="registercapitalType" />
+    <result column="ENTRUSTED_AGENT" jdbcType="VARCHAR" property="entrustedAgent" />
+    <result column="REMARK6" jdbcType="VARCHAR" property="remark6" />
+    <result column="REMARK7" jdbcType="VARCHAR" property="remark7" />
+    <result column="REMARK8" jdbcType="VARCHAR" property="remark8" />
+    <result column="REMARK9" jdbcType="VARCHAR" property="remark9" />
+    <result column="REMARK10" jdbcType="VARCHAR" property="remark10" />
+    <result column="SS_ORGANIZATION" jdbcType="VARCHAR" property="ssOrganization" />
+    <result column="CLIENT_TYPE" jdbcType="VARCHAR" property="clientType" />
+    <result column="PRODUCT_TYPE" jdbcType="VARCHAR" property="productType" />
+    <result column="BY_APPROVE_ID" jdbcType="BIGINT" property="byApproveId" />
+    <result column="IS_HAZARDOUS" jdbcType="VARCHAR" property="isHazardous" />
+    <result column="CONTACTS_NUMBER" jdbcType="VARCHAR" property="contactsNumber" />
+    <result column="CONTACTS" jdbcType="VARCHAR" property="contacts" />
+    <result column="WEB_SITE" jdbcType="VARCHAR" property="webSite" />
+    <result column="ECONOMIC_TYPE" jdbcType="VARCHAR" property="economicType" />
+    <result column="CLIENT_TYPE_ID" jdbcType="VARCHAR" property="clientTypeId" />
+    <result column="CLIENT_TYPE_NAME" jdbcType="VARCHAR" property="clientTypeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    ID, CODE, FULLNAME, SHORTNAME, EN_FULLNAME, EN_SHORTNAME, TYPE, GSDJH, SWDJH, ZZJGM, 
+    ZMCL_ID, ISCUSTOMER, ISPROVIDER, COUNTRY, AREA, CITY, ADDRESS, POSTCODE, LANAGUECODE, 
+    TEL, TEL_EXT, FAX, FAX_EXT, EMAIL, STATE, SUBMIT_TIME, UPDATE_TIME, REGISTERCAPITAL, 
+    GRYXZJ, FREEZE_STATUS_CUS, FREEZE_STATUS_SUP, CREATOR_ID, CREATOR_NAME, CREATOR_TIME, 
+    UPDATE_UID, UPDATE_UNAME, STATUS, REMARK2, REMARK1, REMARK4, REMARK3, REMARK5, VERSION, 
+    REMARK, ERRTEXT, DWLX, SZHY, SHXYDM, LEGALPERSION, REGISTERCAPITAL_TYPE, ENTRUSTED_AGENT, 
+    REMARK6, REMARK7, REMARK8, REMARK9, REMARK10, SS_ORGANIZATION, CLIENT_TYPE, PRODUCT_TYPE, 
+    BY_APPROVE_ID, IS_HAZARDOUS, CONTACTS_NUMBER, CONTACTS, WEB_SITE, ECONOMIC_TYPE, 
+    CLIENT_TYPE_ID, CLIENT_TYPE_NAME
+  </sql>
+
+  <update id="updateCodeOutunit" parameterType="com.infoyb.supplier.system.model.CodeOutunit">
+    UPDATE CODE_OUTUNIT SET
+    FULLNAME =#{fullname},SHORTNAME =#{shortname},EN_FULLNAME =#{enFullname},GSDJH =#{gsdjh},
+    SWDJH =#{swdjh},ZZJGM =#{zzjgm},ISCUSTOMER =#{iscustomer},ISPROVIDER =#{isprovider},
+    AREA =#{area},ADDRESS =#{address},POSTCODE =#{postcode},TEL =#{tel},
+    FAX =#{fax},EMAIL =#{email},REGISTERCAPITAL =#{registercapital},ECONOMIC_TYPE =#{economicType},
+    WEB_SITE =#{webSite},CONTACTS =#{contacts},CONTACTS_NUMBER =#{contactsNumber},
+    SZHY =#{szhy},SHXYDM =#{shxydm},LEGALPERSION =#{legalpersion},EN_SHORTNAME =#{enShortname},
+    STATE =#{state},IS_HAZARDOUS =#{isHazardous}
+    WHERE  BY_APPROVE_ID =#{byApproveId}
+  </update>
+
+  <select id="selectOutUnitById" parameterType="long" resultType="string">
+    SELECT ID FROM CODE_OUTUNIT WHERE BY_APPROVE_ID =#{byApproveId, jdbcType=BIGINT}
+  </select>
+</mapper>

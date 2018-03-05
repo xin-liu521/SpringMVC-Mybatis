@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <style>
+        *{
+            padding:0px;
+            margin:0px;
+        }
+        .mail_box
+        {
+            width:780px;
+            height:620px;
+            margin:0 auto;
+            margin-top:10px;
+            word-break:break-all;
+            border:1px solid #ccc;
+            font-family:"微软雅黑";
+            font-size:14px;
+            line-height:25px;
+            color:#444;
+            margin-bottom:10px;
+            border-radius:5px;
+        }
+        .mail_header
+        {
+            background-color:#12afdc;
+            padding:20px;
+
+        }
+        .mail_contion
+        {
+            height:400px;
+            padding:50px;
+        }
+        .mail_user
+        {
+            font-size:18px;
+            color:#12afdc;
+            font-weight:bold;
+        }
+        .c12afdc
+        {
+            color:#12afdc;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        .cfff
+        {
+            color:#fff;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        .c999
+        {
+            color:#999;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        .mail_footer
+        {
+            border-top:1px solid #999;
+            width:680px;
+            margin:0 auto;
+            color:#999;
+            font-size:12px;
+        }
+        .f_right
+        {
+            float:right;
+        }
+        .mail_url_do
+        {
+            background-color:#12afdc;
+            padding:10px;
+            border-radius:5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="mail_box">
+    <div class="mail_header">
+        <a href="${domain}" style="color:#fff; font-size:18px; font-weight:bold; text-decoration:none;">北元客商平台</a>
+    </div>
+    <div class="mail_contion">
+        <span class="mail_user">Hi　#ACCOUNT#，</span><br><br>
+        <span>感谢您注册北元客商平台</span><span class="c12afdc"></span><br><br>
+        <span>请点击以下链接激活您的邮箱：</span><br>
+        <div class="mail_url_do">
+            <span class="cfff">${domain}/bysupplier/users/emailActivateView?userAccount=#ACCOUNT#&userId=#userId#</span>
+        </div><br><br>
+
+        <span>若非本人操作，请忽略此邮件</span><br><br>
+        <span>如果不能打开，请尝试将此链接复制到浏览器地址栏访问。</span><br><br>
+        <span>-北元客商平台</span>
+
+    </div>
+
+</div>
+</body>
+</html>

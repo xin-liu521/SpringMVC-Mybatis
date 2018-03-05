@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByBankRecordDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByBankRecord">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="BY_BANK_ID" jdbcType="BIGINT" property="byBankId" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="BANK_ACCOUNT" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="BANK_TYPE" jdbcType="VARCHAR" property="bankType" />
+    <result column="BANK_ACCOUNT_NAME" jdbcType="VARCHAR" property="bankAccountName" />
+    <result column="DEPOSIT_BANK" jdbcType="BIGINT" property="depositBank" />
+    <result column="BANK_COUNTRY" jdbcType="VARCHAR" property="bankCountry" />
+    <result column="ASSOCIATED_NUMBER" jdbcType="VARCHAR" property="associatedNumber" />
+    <result column="CURRENCY_TYPE" jdbcType="VARCHAR" property="currencyType" />
+    <result column="OTHER_BANK" jdbcType="VARCHAR" property="otherBank" />
+    <result column="BANK_TYPE_NAME" jdbcType="VARCHAR" property="bankTypeName" />
+    <result column="DEPOSIT_BANK_NAME" jdbcType="VARCHAR" property="depositBankName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+    <result column="IS_ELECTRON_ACCOUNT" jdbcType="INTEGER" property="isElectronAccount" />
+    <result column="ACCOUNT_PROPERTIES" jdbcType="INTEGER" property="accountProperties" />
+    <result column="RECORD_TIME" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="RECORD_VERSION" jdbcType="INTEGER" property="recordVersion" />
+    <result column="IS_BASE_ACCOUNT" jdbcType="INTEGER" property="isBaseAccount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BY_BANK_ID, BASE_ID, BANK_ACCOUNT, BANK_TYPE, BANK_ACCOUNT_NAME, DEPOSIT_BANK,
+    BANK_COUNTRY, ASSOCIATED_NUMBER, CURRENCY_TYPE, OTHER_BANK, BANK_TYPE_NAME, DEPOSIT_BANK_NAME, 
+    CREATE_TIME, CREATE_USER_ID, COMPANY_TYPE, IS_ELECTRON_ACCOUNT, ACCOUNT_PROPERTIES, 
+    RECORD_TIME
+  </sql>
+  <!-- 保存通知附件 -->
+  <insert id="insertByBankRecordList" parameterType="list" useGeneratedKeys="false">
+    INSERT INTO BY_BANK_RECORD (
+    ID
+    ,BY_BANK_ID
+    ,BASE_ID
+    ,BANK_ACCOUNT
+    ,BANK_TYPE
+    ,BANK_ACCOUNT_NAME
+    ,DEPOSIT_BANK
+    ,BANK_COUNTRY
+    ,ASSOCIATED_NUMBER
+    ,CURRENCY_TYPE
+    ,OTHER_BANK
+    ,BANK_TYPE_NAME
+    ,DEPOSIT_BANK_NAME
+    ,CREATE_TIME
+    ,CREATE_USER_ID
+    ,COMPANY_TYPE
+    ,IS_ELECTRON_ACCOUNT
+    ,ACCOUNT_PROPERTIES
+    ,RECORD_TIME
+    ,RECORD_VERSION
+    ,IS_BASE_ACCOUNT
+    ) SELECT BY_BANK_RECORD_SEQ.NEXTVAL
+    ,T.BY_BANK_ID
+    ,T.BASE_ID
+    ,T.BANK_ACCOUNT
+    ,T.BANK_TYPE
+    ,T.BANK_ACCOUNT_NAME
+    ,T.DEPOSIT_BANK
+    ,T.BANK_COUNTRY
+    ,T.ASSOCIATED_NUMBER
+    ,T.CURRENCY_TYPE
+    ,T.OTHER_BANK
+    ,T.BANK_TYPE_NAME
+    ,T.DEPOSIT_BANK_NAME
+    ,T.CREATE_TIME
+    ,T.CREATE_USER_ID
+    ,T.COMPANY_TYPE
+    ,T.IS_ELECTRON_ACCOUNT
+    ,T.ACCOUNT_PROPERTIES
+    ,T.RECORD_TIME
+    ,T.RECORD_VERSION
+    ,T.IS_BASE_ACCOUNT
+    FROM (
+    <foreach item="doc" collection="list" separator="UNION ALL" index="index">
+      SELECT
+      #{doc.byBankId, jdbcType=BIGINT} AS BY_BANK_ID
+      ,#{doc.baseId, jdbcType=BIGINT} AS BASE_ID
+      ,#{doc.bankAccount, jdbcType=VARCHAR} AS BANK_ACCOUNT
+      ,#{doc.bankType, jdbcType=VARCHAR} AS BANK_TYPE
+      ,#{doc.bankAccountName, jdbcType=VARCHAR} AS BANK_ACCOUNT_NAME
+      ,#{doc.depositBank, jdbcType=BIGINT} AS DEPOSIT_BANK
+      ,#{doc.bankCountry, jdbcType=VARCHAR} AS BANK_COUNTRY
+      ,#{doc.associatedNumber, jdbcType=VARCHAR} AS ASSOCIATED_NUMBER
+      ,#{doc.currencyType, jdbcType=VARCHAR} AS CURRENCY_TYPE
+      ,#{doc.otherBank, jdbcType=VARCHAR} AS OTHER_BANK
+      ,#{doc.bankTypeName, jdbcType=VARCHAR} AS BANK_TYPE_NAME
+      ,#{doc.depositBankName, jdbcType=VARCHAR} AS DEPOSIT_BANK_NAME
+      ,#{doc.createTime, jdbcType=TIMESTAMP} AS CREATE_TIME
+      ,#{doc.createUserId, jdbcType=BIGINT} AS CREATE_USER_ID
+      ,#{doc.companyType, jdbcType=INTEGER} AS COMPANY_TYPE
+      ,#{doc.isElectronAccount, jdbcType=INTEGER} AS IS_ELECTRON_ACCOUNT
+      ,#{doc.accountProperties, jdbcType=INTEGER} AS ACCOUNT_PROPERTIES
+      ,#{doc.recordTime, jdbcType=TIMESTAMP} AS RECORD_TIME
+      ,#{doc.recordVersion, jdbcType=INTEGER} AS RECORD_VERSION
+      ,#{doc.isBaseAccount, jdbcType=INTEGER} AS IS_BASE_ACCOUNT
+      FROM DUAL
+    </foreach>
+    ) T
+  </insert>
+
+  <!--查询版本-->
+  <select id="selectBankVersionNumber" parameterType="com.infoyb.supplier.system.model.ByBank" resultType="Integer">
+    SELECT MAX (RECORD_VERSION) FROM BY_BANK_RECORD
+    WHERE BY_BANK_ID =#{id, jdbcType=BIGINT} AND BASE_ID =#{baseId, jdbcType=BIGINT}
+
+  </select>
+
+  <delete id="deleteByBankRecord" parameterType="map" >
+    DELETE BY_BANK_RECORD
+    WHERE BASE_ID =#{baseId, jdbcType=BIGINT} AND COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+  </delete>
+</mapper>

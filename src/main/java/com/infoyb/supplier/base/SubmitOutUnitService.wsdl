@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="SubmitOutUnitService" targetNamespace="urn:SubmitOutUnitService" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:SubmitOutUnitService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="urn:SubmitOutUnitService" version="1.0" xmlns:ns1="urn:SubmitOutUnit" xmlns:tns="urn:SubmitOutUnitService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:import namespace="urn:SubmitOutUnit"/>
+<xs:element name="outUnitSubmit" type="tns:outUnitSubmit"/>
+<xs:element name="outUnitSubmitResponse" type="tns:outUnitSubmitResponse"/>
+<xs:complexType name="outUnitSubmit">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" ref="ns1:SubmitOutUnit"/>
+<xs:element minOccurs="0" name="arg1" type="xs:string"/>
+<xs:element minOccurs="0" name="arg2" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="outUnitSubmitResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:returnMess"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnMess">
+<xs:sequence>
+<xs:element name="count" type="xs:int"/>
+<xs:element minOccurs="0" name="errMess" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema targetNamespace="urn:SubmitOutUnit" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="SubmitOutUnit" type="xs:string"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="outUnitSubmit">
+    <wsdl:part element="tns:outUnitSubmit" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="outUnitSubmitResponse">
+    <wsdl:part element="tns:outUnitSubmitResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OutUnitService">
+    <wsdl:operation name="outUnitSubmit">
+      <wsdl:input message="tns:outUnitSubmit" name="outUnitSubmit">
+    </wsdl:input>
+      <wsdl:output message="tns:outUnitSubmitResponse" name="outUnitSubmitResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SubmitOutUnitServiceSoapBinding" type="tns:OutUnitService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="outUnitSubmit">
+      <soap:operation soapAction="urn:SubmitOutUnitService" style="document"/>
+      <wsdl:input name="outUnitSubmit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="outUnitSubmitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SubmitOutUnitService">
+    <wsdl:port binding="tns:SubmitOutUnitServiceSoapBinding" name="OutUnitServiceImplPort">
+      <soap:address location="http://localhost:8082/services/SubmitOutUnitService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

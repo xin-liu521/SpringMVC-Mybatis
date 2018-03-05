@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByDocDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByDoc">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="DOC_NAME" jdbcType="VARCHAR" property="docName" />
+    <result column="DOC_URL" jdbcType="VARCHAR" property="docUrl" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="IS_DELETE" jdbcType="INTEGER" property="isDelete" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DOC_NAME, DOC_URL, BASE_ID, IS_DELETE, CREATE_TIME, CREATE_USER_ID, COMPANY_TYPE
+  </sql>
+  <insert id="insertBatchByDoc" parameterType="list" useGeneratedKeys="false">
+    INSERT INTO BY_DOC (
+    ID,
+    DOC_URL,
+    DOC_NAME,
+    BASE_ID,
+    IS_DELETE,
+    CREATE_TIME,
+    CREATE_USER_ID,
+    COMPANY_TYPE
+    ) SELECT
+    BY_DOC_SEQ.NEXTVAL,
+    T.DOC_URL,
+    T.DOC_NAME,
+    T.BASE_ID,
+    T.IS_DELETE,
+    T.CREATE_TIME,
+    T.CREATE_USER_ID,
+    T.COMPANY_TYPE
+    FROM (
+    <foreach collection="list" item="item" open="(" close=")" separator="union all" index="index">
+      SELECT
+      #{item.docUrl, jdbcType =VARCHAR} as DOC_URL,
+      #{item.docName, jdbcType =VARCHAR} as DOC_NAME,
+      #{item.baseId, jdbcType =BIGINT} as BASE_ID,
+      #{item.isDelete, jdbcType =INTEGER} as IS_DELETE,
+      #{item.createTime, jdbcType =TIMESTAMP} as CREATE_TIME,
+      #{item.createUserId, jdbcType =BIGINT} as CREATE_USER_ID,
+      #{item.companyType, jdbcType =INTEGER} as COMPANY_TYPE
+      from dual
+    </foreach>
+    ) T
+  </insert>
+
+  <select id="selectByDocList" parameterType="map" resultType="com.infoyb.supplier.system.model.ByDoc">
+    SELECT <include refid="Base_Column_List"/>
+    FROM BY_DOC
+    <where>
+      <if test="baseId != null">
+        AND  BASE_ID =#{baseId, jdbcType=BIGINT}
+      </if>
+      <if test="companyType != null">
+        AND  COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+      </if>
+      <if test="isDelete != null">
+        AND  IS_DELETE =#{isDelete, jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <!--删除附件  修改删除状态-->
+  <update id="deleteByDic" parameterType="map" >
+    UPDATE BY_DOC SET IS_DELETE =#{isDelete, jdbcType=INTEGER}
+    WHERE   BASE_ID =#{baseId, jdbcType=BIGINT} and COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+  </update>
+
+  <!--删除附件  修改删除状态-->
+  <update id="deleteByDocRecord" parameterType="map" >
+    UPDATE BY_DOC_RECORD SET IS_DELETE =#{isDelete, jdbcType=INTEGER}
+    WHERE   BASE_ID =#{baseId, jdbcType=BIGINT} and COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+  </update>
+
+
+  <insert id="insertOutUnitDoc" parameterType="map" useGeneratedKeys="true" keyProperty="attach_id">
+    <selectKey resultType="string" keyProperty="attach_id"  order="BEFORE">
+      select cms_attach_seq.nextval from dual
+    </selectKey>
+    INSERT into cms_attach
+    (
+    ATTACH_ID,
+    NAME,
+    UPLOAD_NAME,
+    UPLOAD_DATE,
+    SURVEY_TYPE,
+    CONTENT_ID
+    )VALUES
+    (
+    #{attach_id, jdbcType=VARCHAR},
+    #{name, jdbcType=VARCHAR},
+    #{upload_name, jdbcType=VARCHAR},
+    #{upload_date, jdbcType=TIMESTAMP},
+    #{survey_type, jdbcType=VARCHAR},
+    #{content_id, jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <delete id="deleteOutDoc" parameterType="map">
+    DELETE cms_attach WHERE CONTENT_ID =#{content_id, jdbcType=VARCHAR}
+  </delete>
+</mapper>

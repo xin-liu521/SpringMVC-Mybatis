@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infoyb.supplier.system.dao.ByProductRecordDao">
+  <resultMap id="BaseResultMap" type="com.infoyb.supplier.system.model.ByProductRecord">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="BY_PRODUCT_ID" jdbcType="BIGINT" property="byProductId" />
+    <result column="PRODUCT_TYPE" jdbcType="BIGINT" property="productType" />
+    <result column="PRODUCT_TYPE_NAME" jdbcType="VARCHAR" property="productTypeName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="BASE_ID" jdbcType="BIGINT" property="baseId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="BIGINT" property="createUserId" />
+    <result column="COMPANY_TYPE" jdbcType="INTEGER" property="companyType" />
+    <result column="RECORD_TIME" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="RECORD_VERSION" jdbcType="INTEGER" property="recordVersion" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BY_PRODUCT_ID, PRODUCT_TYPE, PRODUCT_TYPE_NAME, REMARK, BASE_ID, CREATE_TIME,
+    CREATE_USER_ID, COMPANY_TYPE, RECORD_TIME
+  </sql>
+  <insert id="insertByProductRecordList" parameterType="list" useGeneratedKeys="false">
+    INSERT INTO BY_PRODUCT_RECORD (
+    ID
+    ,BY_PRODUCT_ID
+    ,PRODUCT_TYPE
+    ,PRODUCT_TYPE_NAME
+    ,REMARK
+    ,BASE_ID
+    ,CREATE_TIME
+    ,CREATE_USER_ID
+    ,COMPANY_TYPE
+    ,RECORD_TIME
+    ,RECORD_VERSION
+    ) SELECT BY_PRODUCT_RECORD_SEQ.NEXTVAL
+    ,T.BY_PRODUCT_ID
+    ,T.PRODUCT_TYPE
+    ,T.PRODUCT_TYPE_NAME
+    ,T.REMARK
+    ,T.BASE_ID
+    ,T.CREATE_TIME
+    ,T.CREATE_USER_ID
+    ,T.COMPANY_TYPE
+    ,T.RECORD_TIME
+    ,T.RECORD_VERSION
+    FROM (
+    <foreach item="item" collection="list" separator="UNION ALL" index="index">
+      SELECT
+      #{item.byProductId, jdbcType=BIGINT} AS BY_PRODUCT_ID
+      ,#{item.productType, jdbcType=BIGINT} AS PRODUCT_TYPE
+      ,#{item.productTypeName, jdbcType=VARCHAR} AS PRODUCT_TYPE_NAME
+      ,#{item.remark, jdbcType=VARCHAR} AS REMARK
+      ,#{item.baseId, jdbcType=BIGINT} AS BASE_ID
+      ,#{item.createTime, jdbcType=TIMESTAMP} AS CREATE_TIME
+      ,#{item.createUserId, jdbcType=BIGINT} AS CREATE_USER_ID
+      ,#{item.companyType, jdbcType=INTEGER} AS COMPANY_TYPE
+      ,#{item.recordTime, jdbcType=TIMESTAMP} AS RECORD_TIME
+      ,#{item.recordVersion, jdbcType=INTEGER} AS RECORD_VERSION
+      FROM DUAL
+    </foreach>
+    ) T
+  </insert>
+
+  <!--查询版本-->
+  <select id="selectVersionNumber" resultType="Integer" parameterType="com.infoyb.supplier.system.model.ByProduct">
+    SELECT MAX (RECORD_VERSION) FROM BY_PRODUCT_RECORD
+    WHERE BY_PRODUCT_ID =#{id, jdbcType=BIGINT} AND BASE_ID =#{baseId, jdbcType=BIGINT}
+
+  </select>
+
+  <delete id="deleteByProductRecord" parameterType="map" >
+    DELETE BY_PRODUCT_RECORD
+    WHERE BASE_ID =#{baseId, jdbcType=BIGINT} AND COMPANY_TYPE =#{companyType, jdbcType=INTEGER}
+  </delete>
+</mapper>
+
